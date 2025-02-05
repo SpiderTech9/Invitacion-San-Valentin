@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<title>Tu no seras espectadora</title>
+<link rel="icon" type="image/x-icon" href="corazon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet"> <!-- Importar la fuente Fredoka One -->
+    <style>
+        body {
+            font-family: 'Fredoka One', cursive; /* Cambiar la tipografía a Fredoka One */
+            background: url('fondo.png') no-repeat center center fixed; /* Fondo personalizado */
+            background-size: cover;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden; /* Evitar el desplazamiento */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .content {
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #f96e74; /* Color de las letras de la invitación */
+            font-size: 3em; /* Aumento del tamaño de la letra */
+            margin: 0 0 10px;
+            position: relative;
+            top: 80px; /* Arriba o abajo */
+        }
+        h2 {
+            color: #f96e74; /* Color de las letras de la invitación */
+            font-size: 4.4em; /* Aumento del tamaño de la letra */
+            margin: 0 0 10px;
+            position: relative;
+            top: -55px;
+            left: 5%; /* Ajusta esto para moverlo horizontalmente */
+            line-height: 0.8; /* Reducir espaciado entre líneas */
+            text-align: left; /* Alinear texto a la izquierda */
+        }
+        button {
+            background-color: rgb(47, 217, 240);
+            padding: 15px 30px; /* Aumentar el tamaño del botón */
+            font-size: 18px; /* Aumentar el tamaño del texto */
+            cursor: pointer;
+            color: white; /* Color de la letra */
+            border: none; /* Quitar borde negro */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra difuminada */
+            position: relative;
+        }
+        #yesBtn {
+            background-color: green; /* Botón "Sí" verde */
+        }
+        #noBtn {
+            background-color: red; /* Botón "No" rojo */
+        }
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+        .heart-transition {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background-color: #f96e74;
+            clip-path: path("M50 15C30 -15 0 15 0 35C0 70 50 100 50 100C50 100 100 70 100 35C100 15 70 -15 50 15Z");
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            transition: transform 0.8s ease-out, opacity 0.4s ease-in;
+        }
+        .heart-expand {
+            transform: translate(-50%, -50%) scale(20);
+        }
+        .heart-fade {
+            opacity: 0;
+        }
+
+        /* Agregar estas nuevas clases */
+        #invitation, #result {
+            position: absolute;
+            width: 100%;
+            transition: opacity 0.3s ease;
+        }
+        #result {
+            opacity: 0;
+        }
+        .photo {
+            max-width: 100%;
+            height: auto;
+            max-height: 370px; /* Reducir tamaño de la foto */
+            display: block;
+            margin: 0 auto;
+            transform: translateX(25px); /* Aqui muevo de de izquierda o derecha */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center; /* Separación entre botones */
+            gap: 30px;
+            width: 100%;
+            max-width: 400px; /* Ajustar el tamaño del contenedor de botones */
+            top: 30px;
+            position: relative; /* Asegurar que los botones se posicionen correctamente */
+            left: 16%; /* Ajusta esto para moverlo horizontalmente */
+        }
+        .gif-container {
+            width: 80%; /* Aumentar el tamaño del GIF */
+            text-align: center; /* Centrar el GIF */
+            top: 100px; /* Ajustar el margen superior para cambiar la posición vertical */
+            transform: translateX(30px); /* Mover el GIF hacia la derecha */
+        }
+        .button-area {
+            position: relative;
+            width: 100%;
+            height: 200px; /* Ampliar el área de movimiento */
+        }
+        #downloadBtn {
+            display: none; /* Ocultar inicialmente */
+            position: absolute; /* Para que puedas moverlo manualmente */
+            top: 90%; /* Ajusta esto para moverlo verticalmente */
+            left: 80%; /* Ajusta esto para moverlo horizontalmente */
+            transform: translate(-50%, -50%); /* Para centrar el botón */
+        }
+        .emoji-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none; /* Permitir clics a través del contenedor */
+            overflow: hidden; /* Evitar desplazamiento */
+        }
+        .emoji {
+            position: absolute;
+            font-size: 3em;
+            animation: float 2s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* Reduce a 1.5s para que desaparezcan más rápido */
+        }
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) scale(1.5);
+            }
+        }
+        @keyframes leftToRight {
+            0% {
+                left: -10vw;
+            }
+            100% {
+                left: 100vw;
+            }
+        }
+        @keyframes rightToLeft {
+            0% {
+                left: 100vw;
+            }
+            100% {
+                left: -10vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content" id="invitation">
+        <h1>¿Quieres ser mi<br>San Valentín?</h1>
+        <div class="gif-container">
+            <img src="love-cat.gif" alt="Gif personalizado" style="width: 100%; height: auto;"> <!-- Aumento del tamaño del GIF -->
+        </div>
+        <div class="button-area">
+            <div class="button-container">
+                <button id="yesBtn">Sí</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+    </div>
+    <div id="result">
+        <h2>Sabía que<br>aceptarías❤</h2>
+        <img src="foto-juntos.png" alt="Foto juntos" class="photo">
+        </div>
+        <a href="tu-archivo.pdf" download="Leelo-Amor.pdf" id="downloadBtn">
+            <button>Descargar PDF</button>
+        </a>
+    <div id="heart" class="heart-transition" style="display: none;"></div>
+    <div class="emoji-container" id="emojiContainer"></div>
+
+    <script>
+        let positions = [
+            { left: '90%', top: '10%' }, // Esquina superior derecha
+            { left: '50%', top: '50%' }, // Centro de la página
+            { left: '10%', top: '10%' }, // Esquina superior izquierda
+            { left: '90%', top: '10%' }, // Esquina superior derecha
+            { left: '50%', top: '50%' }  // Posición original
+        ];
+        let index = 0;
+        document.getElementById('noBtn').onmouseover = function() {
+            const btn = document.getElementById('noBtn');
+            index = (index + 1) % positions.length;
+            btn.style.left = positions[index].left;
+            btn.style.top = positions[index].top;
+            setTimeout(() => { // Mover rápidamente para que el cursor no pueda hacer clic
+                index = (index + 1) % positions.length;
+                btn.style.left = positions[index].left;
+                btn.style.top = positions[index].top;
+            }, 100); // Ajusta el tiempo según sea necesario
+        };
+
+        function createEmoji(emoji, direction) {
+            const emojiElement = document.createElement('div');
+            emojiElement.classList.add('emoji');
+            emojiElement.textContent = emoji;
+            emojiElement.style.top = Math.random() * 100 + 'vh';
+            emojiElement.style.left = direction === 'left' ? '-10vw' : '100vw';
+            emojiElement.style.animationName = direction === 'left' ? 'leftToRight, fall' : 'rightToLeft, fall';
+            document.getElementById('emojiContainer').appendChild(emojiElement);
+
+            setTimeout(() => {
+                emojiElement.remove();
+            }, 3000);
+        }
+
+        document.getElementById('yesBtn').onclick = function() {
+            let heart = document.getElementById('heart');
+            let invitation = document.getElementById('invitation');
+            let result = document.getElementById('result');
+            
+            // Mostrar el corazón
+            heart.style.display = 'block';
+            
+            // Después de un pequeño delay, expandir el corazón
+            setTimeout(() => {
+                heart.classList.add('heart-expand');
+            }, 50);
+
+            // Cuando el corazón está completamente expandido, preparar la segunda pantalla
+            setTimeout(() => {
+                // Mostrar la segunda pantalla pero mantenerla invisible
+                result.style.display = 'block';
+                
+                // Cambiar el fondo
+                document.body.style.background = "url('nuevo-fondo.png') no-repeat center center fixed";
+                document.body.style.backgroundSize = "cover";
+                
+                // Ocultar la primera pantalla
+                invitation.style.display = 'none';
+                
+                // Mostrar la segunda pantalla con fade in
+                result.style.opacity = '1';
+                
+                // Mostrar el botón de descarga
+                document.getElementById('downloadBtn').style.display = 'block';
+                
+                // Comenzar a desvanecer el corazón
+                heart.classList.add('heart-fade');
+
+            // Crear emojis
+            const emojis = ['❤️', '😍', '🥰'];
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    createEmoji(emojis[Math.floor(Math.random() * emojis.length)], i % 2 === 0 ? 'left' : 'right');
+                }, i * 5);
+            }
+        }, 800); // Este tiempo debe ser menor que el tiempo total de la expansión
+
+// Limpiar el corazón después de que se complete la transición
+setTimeout(() => {
+    heart.style.display = 'none';
+    heart.classList.remove('heart-expand', 'heart-fade');
+}, 1200);
+        };
+    </script>
+</body>
+</html>
